@@ -1,0 +1,63 @@
+{% extends 'core/base.html' %}
+
+{% block styles %}
+    <link href='https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.css' rel='stylesheet' />
+{% endblock styles %}
+
+{% block scripts %}
+    <script src='https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.js'></script>
+{% endblock scripts %}
+
+
+{% block content %}
+    <div class="container-fluid custom-bg-dark">
+        <div class="d-flex flex-column">
+            <div class="d-flex justify-content-center align-items-center mt-5 mb-2 py-5">
+                <h1><strong>SideQuest Quest Details Page</strong></h1>
+            </div>
+            <div class="d-flex flex-row justify-content-evenly my-5 pb-3">
+                <div>
+                    <strong>Difficulty:</strong> 5/10
+                </div>
+                <div>
+                    <strong>Created by:</strong> The_Terminator
+                </div>
+            </div>
+        </div>
+        <div class="d-flex flex-row ">
+            <div class="d-flex flex-column col-6 flex-grow-1 align-items-center">
+                <img class=""
+                    src="https://api.mapbox.com/styles/v1/mapbox/light-v11/static/-87.0186,32.4055,14/500x300?access_token=pk.eyJ1IjoibHVjYXMtY2FuY2lvIiwiYSI6ImNsdXE5NG55MTJoNGkyamxoeDF1dmZ1bzEifQ.ZxjM8XgIPOPdEGclWCi6ZQ"
+                    alt="Map of the Edmund Pettus Bridge in Selma, Alabama, with a black 'L' marker positioned in the middle of the bridge."
+                />
+            </div>
+            <div class="flex-colum col-6 flex-grow-1">
+                <pre>
+                    From where the springs sing crystal clear,
+                    Set forth where whispers ride the air.
+
+                    Past the oak that holds the tales of old,
+                    Where stories whisper, yet remain untold.
+
+                    Beneath the gaze of the gator's pride,
+                    Where mossy paths through marshes glide.
+
+                    Through arches adorned with ivy's grace,
+                    Where memories linger, time's gentle embrace.
+
+                    Among the towers where knowledge gleams,
+                    In halls where wisdom's echo streams.
+
+                    Beyond the fields where orange hues ignite,
+                    Where melodies blend with the evening light.
+
+                    Amidst the bustle where the streets converge,
+                    Find solace beneath the mossy verge.
+
+                    Where dreams take flight in Spanish moss,
+                    In Gainesville's heart, there lies your cross.
+                </pre>
+            </div>
+        </div>
+    </div> 
+{% endblock content %}

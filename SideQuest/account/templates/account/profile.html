@@ -1,0 +1,119 @@
+{% extends 'core/base.html' %}
+
+{% load static %}
+{% block styles %}
+    {{ block.super }}
+
+    <!-- Custom CSS to override default link styles */ -->
+    <style>
+        .no-link-color {
+            color: inherit; /* Use the color of the parent element */
+            text-decoration: none; /* Remove underline */
+        }
+    </style>
+
+    <link rel="stylesheet" href="{% static 'core/css/custom_styles.css' %}">
+
+    <link href='https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.css' rel='stylesheet' />
+{% endblock styles %}
+
+{% block scripts %}
+    <script src='https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.js'></script>
+{% endblock scripts%}
+
+{% block content %}
+
+    <div class="container-fluid custom-bg-dark">
+        <div class="d-flex flex-column">
+            <div class="d-flex flex-row my-5 mx-4">
+                <div class="d-flex flex-column col-6">
+                    <img class="img-fluid rounded-circle" src="{% static 'account/assets/img/hash_slinging_slasher.jpg' %}" alt="..." />
+                </div>
+                <div class="d-flex flex-column col-6 justify-content-center align-items-center">
+                    <div class="my-4">
+                        <h1><strong>Hash Slinging Slasher</strong></h1><!--NAME-->
+                    </div>
+                    <div class="my-2">
+                        <stong>Explorer Exp: </stong> 55 <!--Score-->
+                    </div>
+                    <div class="my-2">
+                        <strong>Quests Completed: </strong> 6
+                    </div>
+                    <div class="my-2">
+                        <strong>Quests Created: </strong> 2
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex flex-row my-5">
+                <div class="d-flex flex-column col-6 align-items-center justify-content-center">
+                    <h3>Quests Completed: </h3>
+                    <ul>
+                        <li>
+                            <a class="no-link-color" href="{% url 'quests:questDetails' %}">
+                                <h4 class="display-4">Quest #1</h4>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="no-link-color" href="{% url 'quests:questDetails' %}">
+                                <h4 class="display-4">Quest #2</h4>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="no-link-color" href="{% url 'quests:questDetails' %}">
+                                <h4 class="display-4">Quest #3</h4>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="d-flex flex-column col-6 my-2">
+                    <div id='map' class="py-4" style='width: 100%; height: 400px;'></div>
+                    <script>
+                        mapboxgl.accessToken = 'pk.eyJ1IjoibHVjYXMtY2FuY2lvIiwiYSI6ImNsdXE5NG55MTJoNGkyamxoeDF1dmZ1bzEifQ.ZxjM8XgIPOPdEGclWCi6ZQ';
+                        const map = new mapboxgl.Map({
+                            container: 'map', // container ID
+                            style: 'mapbox://styles/lucas-cancio/cluu71ujh007i01qr14j3e1s4', // style URL
+                            center: [-74.5, 40], // starting position [lng, lat]
+                            zoom: 9, // starting zoom
+                        });
+                    </script>
+                </div>
+            </div>
+
+            <div class="d-flex flex-row my-5">
+                <div class="d-flex flex-column col-6 my-2">
+                    <div id='map2' style='width: 100%; height: 400px;'></div>
+                    <script>
+                        mapboxgl.accessToken = 'pk.eyJ1IjoibHVjYXMtY2FuY2lvIiwiYSI6ImNsdXE5NG55MTJoNGkyamxoeDF1dmZ1bzEifQ.ZxjM8XgIPOPdEGclWCi6ZQ';
+                        const map2 = new mapboxgl.Map({
+                            container: 'map2', // container ID
+                            style: 'mapbox://styles/lucas-cancio/cluu71ujh007i01qr14j3e1s4', // style URL
+                            center: [-74.5, 40], // starting position [lng, lat]
+                            zoom: 9, // starting zoom
+                        });
+                    </script>
+                </div>
+                <div class="d-flex flex-column col-6 align-items-center justify-content-center">
+                    <h3>Quests Completed: </h3>
+                    <ul>
+                        <li>
+                            <a class="no-link-color" href="{% url 'quests:questDetails' %}">
+                                <h4 class="display-4">Quest #1</h4>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="no-link-color" href="{% url 'quests:questDetails' %}">
+                                <h4 class="display-4">Quest #2</h4>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="no-link-color" href="{% url 'quests:questDetails' %}">
+                                <h4 class="display-4">Quest #3</h4>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div> 
+{% endblock content %}
