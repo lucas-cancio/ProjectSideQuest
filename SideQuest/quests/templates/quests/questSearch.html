@@ -5,7 +5,6 @@
 {% block styles %}
     {{ block.super }}
 
-    /* Custom CSS to override default link styles */
     <style>
         .no-link-color {
             color: inherit; /* Use the color of the parent element */
@@ -13,7 +12,7 @@
         }
     </style>
 
-    <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/custom_styles.css' %}">
 
     <link href='https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.css' rel='stylesheet' />
 {% endblock styles %}
@@ -25,32 +24,28 @@
 {% block content %}
     <div class="container-fluid custom-bg-dark">
 
-        <div class="container-fluid my-5">
+        <div class="container-fluid my-3">
             <div class="d-flex justify-content-center align-items-center">
                 <h1><strong>Quest Search Page</strong></h1>
             </div>
         </div> 
         
         <div class="container-fluid">
-            <div class="d-flex flex-row" style="height: 60vh;">
+            <div class="d-flex flex-row" style="height: 70vh;">
                 <div class="d-flex flex-column flex-grow-1 col-4 justify-content-center align-items-center">
-                    <a class="no-link-color" href="{% url 'quests:questDetails' %}">
-                        <h2 class="display-4">Quest #1</h2>
-                    </a>
-                    <a class="no-link-color" href="{% url 'quests:questDetails' %}">
-                        <h2 class="display-4">Quest #2</h2>
-                    </a>
-                    <a class="no-link-color" href="{% url 'quests:questDetails' %}">
-                        <h2 class="display-4">Quest #3</h2>
-                    </a>
+                    {% for quest in quest_results %}
+                        <a class="no-link-color" href="{% url 'quests:questDetails' quest.id%}">
+                            <h2 class="display-4"> {{quest.name}}</h2>
+                        </a>
+                    {% endfor %}
                 </div>
-                <div class="d-flex flex-column flex-grow-1 col-8 mb-5 pb-5">
-                    <div id='map' style='width: 100%; height: 60vh; position: relative;'></div>
+                <div class="d-flex flex-column flex-grow-1 col-8 mb-5 py-4 px-4 justify-content-center align-items-center rounded" style="background-color: #c4a471;">
+                    <div id='map' style='width: 90%; height: 90%'></div>
                     <script>
                         mapboxgl.accessToken = 'pk.eyJ1IjoibHVjYXMtY2FuY2lvIiwiYSI6ImNsdXE5NG55MTJoNGkyamxoeDF1dmZ1bzEifQ.ZxjM8XgIPOPdEGclWCi6ZQ';
                         const map = new mapboxgl.Map({
                             container: 'map', // container ID
-                            style: 'mapbox://styles/lucas-cancio/cluu71ujh007i01qr14j3e1s4', // style URL
+                            style: 'mapbox://styles/lucas-cancio/cluubttgi006m01pa98c3ftog', // style URL
                             center: [-74.5, 40], // starting position [lng, lat]
                             zoom: 9, // starting zoom
                         });
@@ -63,6 +58,14 @@
                             showUserHeading: true
                         }));
 
+                        // Add quest start point markers
+                        {% for quest in quest_results %}
+                            new mapboxgl.Marker({
+                                color: "#FF2233",
+                            })
+                                .setLngLat([{{ quest.start_waypoint.longitude }}, {{ quest.start_waypoint.latitude }}])
+                                .addTo(map);
+                        {% endfor %}                    
                     </script>
                 </div>
             </div>

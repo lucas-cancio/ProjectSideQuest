@@ -1,12 +1,24 @@
+from typing import Any
+from django.db.models.query import QuerySet
 from django.shortcuts import render
+from django.views import generic
 
-# Create your views here.
+from .models import Quest
 
-def questSearch(request):
-    return render(request, "quests/questSearch.html")
 
-def questDetails(request):
-    return render(request, "quests/questDetails.html")
+class QuestSearchView(generic.ListView):
+    model = Quest
+    template_name = "quests/questSearch.html"
+    context_object_name = "quest_results"
+
+    def get_queryset(self):
+        return Quest.objects.filter(start_waypoint__isnull=False).filter(pub_date__isnull=False)[:5]
+    
+
+
+class QuestDetailsView(generic.DetailView):
+    model = Quest
+    template_name = "quests/questDetails.html"
 
 def questCreator(request):
     return render(request, "quests/questCreator.html")

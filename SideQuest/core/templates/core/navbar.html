@@ -6,9 +6,13 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
+                {% if user.is_authenticated %}
                 <li class="nav-item"><a class="nav-link" href="{% url 'account:profile' %}">Profile</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'account:signOut' %}">Sign Out</a></li>
+                {% else %}
                 <li class="nav-item"><a class="nav-link" href="{% url 'account:signup' %}">Sign Up</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'account:login' %}">Log In</a></li>
+                {% endif%}
             </ul>
         </div>
     </div>
