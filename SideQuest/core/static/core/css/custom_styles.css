@@ -10,3 +10,14 @@
     background-color: #13131a;
 }
 
+.profile-image {
+    width: 450px;
+    height: 450px;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+.no-link-color {
+    color: inherit; /* Use the color of the parent element */
+    text-decoration: none; /* Remove underline */
+}

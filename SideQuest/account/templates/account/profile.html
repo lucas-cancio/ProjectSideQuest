@@ -4,16 +4,6 @@
 {% block styles %}
     {{ block.super }}
 
-    <!-- Custom CSS to override default link styles */ -->
-    <style>
-        .no-link-color {
-            color: inherit; /* Use the color of the parent element */
-            text-decoration: none; /* Remove underline */
-        }
-    </style>
-
-    <link rel="stylesheet" href="{% static 'core/css/custom_styles.css' %}">
-
     <link href='https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.css' rel='stylesheet' />
 {% endblock styles %}
 
@@ -26,20 +16,20 @@
     <div class="container-fluid custom-bg-dark">
         <div class="d-flex flex-column">
             <div class="d-flex flex-row my-5 mx-4">
-                <div class="d-flex flex-column col-6">
-                    <img class="img-fluid rounded-circle" src="{% static 'account/assets/img/hash_slinging_slasher.jpg' %}" alt="..." />
+                <div class="d-flex flex-column col-6 justify-content-center align-items-center">
+                    <img class="profile-image p-5" src="{% static 'account/assets/img/hash_slinging_slasher.jpg' %}"  />
                 </div>
                 <div class="d-flex flex-column col-6 justify-content-center align-items-center">
                     <div class="my-4">
                         <h1><strong>{{user.first_name}} {{user.last_name}}</strong></h1><!--NAME-->
                     </div>
                     <div class="my-2">
-                        <strong> Explorer Exp: </strong> {{user.profile.xp}} <!--Score-->
+                        <strong> Explorer XP: </strong> {{user.profile.xp}} <!--Score-->
                     </div>
                     <div class="my-2">
                         <strong>Quests Completed: </strong> 
-                        {% if user.profile.quests_completed_set %}
-                        {{user.profile.quests_complete_set.count}}
+                        {% if user.profile.quests_completed %}
+                        {{user.profile.quests_completed.count}}
                         {% else %} 0 {% endif %}
                     </div>
                     <div class="my-2">
@@ -54,23 +44,22 @@
             <div class="d-flex flex-row my-5">
                 <div class="d-flex flex-column col-6 align-items-center justify-content-center px-2">
                     <h3>Quests Completed: </h3>
-                    <ul>
-                        <li>
-                            <a class="no-link-color" href="{% url 'quests:questDetails' 1%}">
-                                <h4 class="display-4">Quest #1</h4>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="no-link-color" href="{% url 'quests:questDetails' 2%}">
-                                <h4 class="display-4">Quest #2</h4>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="no-link-color" href="{% url 'quests:questDetails' 3%}">
-                                <h4 class="display-4">Quest #3</h4>
-                            </a>
-                        </li>
-                    </ul>
+                    {% if user.profile.quests_completed.count > 0 %}
+                        <ul>
+                            {% for quest_completed in user.profile.quests_completed.all %}
+                            <li>
+                                <a class="no-link-color" href="{% url 'quests:questDetails' 1%}">
+                                    <p>{{quest_completed.name}}</p>
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <h5 style="color:#4cba52">You have not completed any quests.</h5>
+                        <h5 style="color:#4cba52">Find quest in your area using the
+                            <a href="{% url 'quests:questSearch' %}">Quest Search Page</a>
+                        </h5>
+                    {% endif %}
                 </div>
                 <div class="d-flex flex-column col-6 my-2 px-2">
                     <div id='map' class="py-4" style='width: 100%; height: 400px;'></div>
@@ -82,6 +71,24 @@
                             center: [-74.5, 40], // starting position [lng, lat]
                             zoom: 9, // starting zoom
                         });
+                        map.addControl(new mapboxgl.NavigationControl());
+                        map.addControl(new mapboxgl.GeolocateControl({
+                            positionOptions: {
+                                enableHighAccuracy: true
+                            },
+                            trackUserLocation: true,
+                            showUserHeading: true
+                        }));
+
+                        // Add quest start point markers
+                        {% for quest_completed in user.profile.quests_completed.all %}
+                            new mapboxgl.Marker({
+                                color: "#FF2233",
+                                className: "completed_quest_#{{quest_completed.id}}_marker",
+                            })
+                                .setLngLat([{{ quest_completed.start_waypoint.longitude }}, {{ quest_completed.start_waypoint.latitude }}])
+                                .addTo(map);
+                        {% endfor %}  
                     </script>
                 </div>
             </div>
@@ -97,27 +104,45 @@
                             center: [-74.5, 40], // starting position [lng, lat]
                             zoom: 9, // starting zoom
                         });
+                        map2.addControl(new mapboxgl.NavigationControl());
+                        map2.addControl(new mapboxgl.GeolocateControl({
+                            positionOptions: {
+                                enableHighAccuracy: true
+                            },
+                            trackUserLocation: true,
+                            showUserHeading: true
+                        }));
+
+                        // Add quest start point markers
+                        {% for quest_created in user.profile.quests_created.all %}
+                            new mapboxgl.Marker({
+                                color: "#FF2233",
+                                className: "created_quest_#{{quest_created.id}}_marker",
+                            })
+                                .setLngLat([{{ quest_created.start_waypoint.longitude }}, {{ quest_created.start_waypoint.latitude }}])
+                                .addTo(map2)
+                                                        
+                        {% endfor %}  
                     </script>
                 </div>
                 <div class="d-flex flex-column col-6 align-items-center justify-content-center px-2">
-                    <h3>Quests Completed: </h3>
+                    <h3>Quests Created: </h3>
+                    {% if user.profile.quests_created.count > 0 %}
                     <ul>
+                        {% for quest_created in user.profile.quests_created.all %}
                         <li>
                             <a class="no-link-color" href="{% url 'quests:questDetails' 1 %}">
-                                <h4 class="display-4">Quest #1</h4>
+                                <h4 class="display-4">{{quest_created.name}}</h4>
                             </a>
                         </li>
-                        <li>
-                            <a class="no-link-color" href="{% url 'quests:questDetails' 2 %}">
-                                <h4 class="display-4">Quest #2</h4>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="no-link-color" href="{% url 'quests:questDetails' 3 %}">
-                                <h4 class="display-4">Quest #3</h4>
-                            </a>
-                        </li>
+                        {% endfor %}
                     </ul>
+                    {% else %}
+                        <h5 style="color:#4cba52">You have not created any quests.</h5>
+                        <h5 style="color:#4cba52">Create a quest 
+                            <a href="{% url 'quests:questCreator' %}">HERE</a>
+                        </h5>
+                    {% endif%}
                 </div>
             </div>
         </div>

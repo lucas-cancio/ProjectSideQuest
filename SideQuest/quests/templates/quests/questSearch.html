@@ -33,9 +33,11 @@
         <div class="container-fluid">
             <div class="d-flex flex-row" style="height: 70vh;">
                 <div class="d-flex flex-column flex-grow-1 col-4 justify-content-center align-items-center">
+                    <h2 class="display-2"><strong>Quests Found</strong></h2>
+                    <br>
                     {% for quest in quest_results %}
                         <a class="no-link-color" href="{% url 'quests:questDetails' quest.id%}">
-                            <h2 class="display-4"> {{quest.name}}</h2>
+                            <h4> {{quest.name}}</h4>
                         </a>
                     {% endfor %}
                 </div>
@@ -62,6 +64,7 @@
                         {% for quest in quest_results %}
                             new mapboxgl.Marker({
                                 color: "#FF2233",
+                                className: "quest_#{{quest.id}}_marker",
                             })
                                 .setLngLat([{{ quest.start_waypoint.longitude }}, {{ quest.start_waypoint.latitude }}])
                                 .addTo(map);

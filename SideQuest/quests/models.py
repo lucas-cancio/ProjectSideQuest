@@ -3,6 +3,7 @@ from django.utils import timezone
 from django.contrib import admin
 
 from django.contrib.auth.models import User
+from account.models import Profile
 
 
 
@@ -28,7 +29,7 @@ class Quest(models.Model):
 
     start_waypoint = models.ForeignKey(Waypoint, on_delete=models.PROTECT, related_name='quest_starting_here', null=True)
 
-    creator = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='quests_created', null=True)
+    creator = models.ForeignKey(Profile, on_delete=models.SET_NULL, related_name='quests_created', null=True)
     pub_date = models.DateTimeField('date published', null=True)
 
 
