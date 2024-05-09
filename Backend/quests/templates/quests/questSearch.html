@@ -18,13 +18,19 @@
 {% endblock styles %}
 
 {% block scripts %}
-    <script src='https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.js'></script>
+    {% comment %} <script src='https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.js'></script> {% endcomment %}
+    <script src="{% static 'frontend/js/vendor-react.bundle.js' %}" defer="defer" ></script>
+    <script src="{% static 'frontend/js/questSearch.bundle.js' %}" defer="defer" ></script>
+    {% comment %} <script src="{% static 'frontend/js/index.bundle.js' %}" defer="defer" ></script> {% endcomment %}
 {% endblock scripts%}
+
 
 {% block content %}
     <div class="container-fluid custom-bg-dark">
 
-        <div class="container-fluid my-3">
+        <div id="root"></div>
+
+        {% comment %} <div class="container-fluid my-3">
             <div class="d-flex justify-content-center align-items-center">
                 <h1 title="HELLO THERE GOOD SIR!"><strong>Quest Search Page</strong></h1>
             </div>
@@ -72,6 +78,6 @@
                     </script>
                 </div>
             </div>
-        </div>
+        </div> {% endcomment %}
     </div>
 {% endblock content %}

@@ -1,25 +1,27 @@
 {% extends "core/base.html" %}
 
+{% load static %}
+
+
+
+{% block styles %}
+    {{ block.super }}
+    <link href="{% static 'core/css/styles.css' %}" rel="stylesheet" />
+{% endblock styles %}
+
+
+{% block scripts %}
+    <script src="{% static 'frontend/js/vendor-react.bundle.js' %}" defer="defer"></script>
+    <script src="{% static 'frontend/js/landing.bundle.js' %}" defer="defer" ></script>
+    {% comment %} <script src="{% static 'frontend/js/index.bundle.js' %}" defer="defer"></script> {% endcomment %}
+{% endblock scripts %}
 
 {% block content %}
-    {% load static %}
-    <!--
-    <div class="container-fluid">
-        <div class="center-text">
-            <h1><strong>SideQuest Landing Page</strong></h1>
-        </div>
-    </div> 
-    -->
-
-    {% block styles %}
-    {{ block.super }}
     
-    <link href="{% static 'core/css/styles.css' %}" rel="stylesheet" />
 
-    {% endblock styles %}
-
+    <div id="root"></div>
     <!-- Header-->
-    <div class="masthead text-center text-white">
+    {% comment %} <div class="masthead text-center text-white">
         <div class="masthead-content">
             <div class="container px-5">
                 <h1 class="masthead-heading mb-0">SideQuest </h1>
@@ -85,7 +87,7 @@
         <div class="container px-5"><p class="m-0 text-center text-white small">Copyright &copy; Your Website 2024</p></div>
     </footer>
     <!-- Bootstrap core JS-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script> {% endcomment %}
     <!-- Core theme JS-->
     <!--<script src="{% static 'core/js/scripts.js'}"></script>-->
 {% endblock content %}
