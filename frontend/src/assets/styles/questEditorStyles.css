@@ -1,0 +1,34 @@
+
+
+.page-title {
+    color: red;
+}
+
+.category-wrapper {
+    border-color: greenyellow;
+    border-style: solid;
+    border-radius: 16px;
+    border-width: 3px;
+    padding: 0px;
+}
+
+.category-title-wrapper {
+    width: 100%;
+    border-radius: 12px;
+    border-style: solid;
+    border-color: greenyellow;
+    border-width: 3px;
+    background-color: cadetblue;
+    box-sizing: border-box;
+    margin: -2px -2px;
+    padding: 0px;
+}
+
+.category-title {
+
+}
+
+.input-row {
+    background-color: cadetblue;
+    border-radius: 3px;
+}
